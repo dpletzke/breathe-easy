@@ -1,8 +1,8 @@
 import Routes from "./pages/Routes";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { StationRecord, StationsProvider } from "./context/stations";
-import React, { useContext } from "react";
-import { StationLookup, StationResponse } from "./types";
+import React from "react";
+import { ContextProvider } from "./context";
+import { RealmProvider } from "./schemas";
 
 const styles = StyleSheet.create({
   container: {
@@ -12,11 +12,13 @@ const styles = StyleSheet.create({
 
 function App() {
   return (
-    <StationsProvider>
-      <SafeAreaView style={styles.container}>
-        <Routes />
-      </SafeAreaView>
-    </StationsProvider>
+    <RealmProvider>
+      <ContextProvider>
+        <SafeAreaView style={styles.container}>
+          <Routes />
+        </SafeAreaView>
+      </ContextProvider>
+    </RealmProvider>
   );
 }
 
