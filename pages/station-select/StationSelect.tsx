@@ -5,17 +5,17 @@ import * as Location from "expo-location";
 import { Picker } from "@react-native-picker/picker";
 
 import type { RootStackParamList } from "../Routes";
+import { NotifierSetupContext, StationsContext } from "../../context";
 
 import { Button } from "../../components/Button";
-import type { StationLookup, QualityType } from "../../types";
-import { requestStation, requestStations } from "../../utils/apiUtils";
-import { StationsContext } from "../../context/stations";
+import type { StationLookup } from "../../types";
+import { requestStations } from "../../utils/apiUtils";
 
 type Props = NativeStackScreenProps<RootStackParamList, "stationSelect">;
 
 const StationSelect = ({ navigation }: Props) => {
-  const { stations, setStationLookups, setStationData } =
-    useContext(StationsContext);
+  const { stations, setStationLookups } = useContext(StationsContext);
+  const { setNotifierSetup } = useContext(NotifierSetupContext);
 
   const [selectedStation, setSelectedStation] = useState<StationLookup | null>(
     null
@@ -45,9 +45,10 @@ const StationSelect = ({ navigation }: Props) => {
 
   useEffect(() => {
     if (!location) return;
-
+    console.log("requesting stations");
     requestStations(location, radius)
       .then((res) => {
+    console.log("got stations");
         setStationLookups(res.data);
       })
       .catch((error) => {
@@ -55,19 +56,6 @@ const StationSelect = ({ navigation }: Props) => {
         setErrorMsg(error);
       });
   }, [location, radius]);
-
-  useEffect(() => {
-    if (!selectedStation) return;
-
-    requestStation(selectedStation.uid)
-      .then((res) => {
-        // setQuality(res.data.iaqi);
-      })
-      .catch((error) => {
-        console.log(error);
-        setErrorMsg(error);
-      });
-  }, [selectedStation]);
 
   return (
     <View
@@ -80,10 +68,14 @@ const StationSelect = ({ navigation }: Props) => {
     >
       <Button
         onPress={() => {
-          navigation.navigate("settings");
+          setNotifierSetup((prev) => ({
+            ...prev,
+            stationId: selectedStation?.uid || null,
+          }));
+          navigation.navigate("thresholdSelect");
         }}
       >
-        Go to Settings
+        Go to Threshold
       </Button>
       {errorMsg && <Text> Error: {JSON.stringify(errorMsg, null, 2)}</Text>}
       {selectedStation && (

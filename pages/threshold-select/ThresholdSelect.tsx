@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { RootStackParamList } from "../Routes.tsx";
+
+import type { RootStackParamList } from "../Routes";
+import { NotifierSetupContext } from "../../context";
+
 import { Button } from "../../components/Button";
 
-type Props = NativeStackScreenProps<RootStackParamList, "settings">;
+type Props = NativeStackScreenProps<RootStackParamList, "thresholdSelect">;
 
 const styles = StyleSheet.create({
   input: {
@@ -16,9 +19,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const Settings = ({ navigation }: Props) => {
-  const [triggerValue, setTriggerValue] = useState<number | null>(null);
-  const [inputValue, setInputValue] = useState<string>("");
+const ThresholdSelect = ({ navigation }: Props) => {
+  const { notifierSetup, setNotifierSetup } = useContext(NotifierSetupContext);
+
+  const [inputValue, setInputValue] = useState<string>(
+    `${notifierSetup.threshold || ""}`
+  );
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Button
@@ -35,13 +42,16 @@ const Settings = ({ navigation }: Props) => {
           setInputValue(text);
         }}
         value={inputValue}
-        placeholder="Set trigger value"
+        placeholder="Set threshold value"
         keyboardType="numeric"
       />
       <Button
         onPress={() => {
-          setTriggerValue(parseInt(inputValue));
-          navigation.navigate("stationSelect");
+          setNotifierSetup((prev) => ({
+            ...prev,
+            threshold: parseInt(inputValue),
+          }));
+          navigation.navigate("confirm");
         }}
       >
         Next
@@ -50,4 +60,4 @@ const Settings = ({ navigation }: Props) => {
   );
 };
 
-export default Settings;
+export default ThresholdSelect;

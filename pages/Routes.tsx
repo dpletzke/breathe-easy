@@ -1,14 +1,15 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import StationSelect from "./station-select/StationSelect";
-import Settings from "./settings/Settings";
-import Home from "./home/Home";
+import Confirm from "./confirm/Confirm";
+import ThresholdSelect from "./threshold-select/ThresholdSelect";
 
 export type RootStackParamList = {
   stationSelect: undefined;
-  settings: undefined;
-  home: undefined;
+  thresholdSelect: undefined;
+  confirm: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -20,17 +21,17 @@ function Routes() {
         <Stack.Screen
           name="stationSelect"
           component={StationSelect}
-          options={{ title: "Station Select" }}
+          options={{ title: "Station" }}
         />
         <Stack.Screen
-          name="settings"
-          component={Settings}
-          options={{ title: "Settings" }}
+          name="thresholdSelect"
+          component={ThresholdSelect}
+          options={{ title: "Threshold" }}
         />
         <Stack.Screen
-          name="home"
-          component={Home}
-          options={{ title: "Home" }}
+          name="confirm"
+          component={Confirm}
+          options={{ title: "Confirm" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
