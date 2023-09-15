@@ -28,9 +28,16 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# build
+/ios
+/android
+
 # local env files
 *.env
 !.example.env
 
 # typescript
 *.tsbuildinfo
+
+# editors
+.vscode/
