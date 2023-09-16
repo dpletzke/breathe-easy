@@ -2,15 +2,15 @@ import React, { createContext, useContext, useState } from "react";
 import { StationLookup, StationResponse } from "../types";
 
 type NotifierSetupType = {
-  stationId: number | null;
+  stationId: string | null;
   threshold: number | null;
 };
 
 export type NotifierSetupContextType = {
   notifierSetup: NotifierSetupType;
-  setNotifierSetup: React.Dispatch<
-    React.SetStateAction<{ stationId: number | null; threshold: number | null }>
-  >;
+  setStationId: (stationId: string) => void;
+  setThreshold: (threshold: number) => void;
+  resetNotifierSetup: () => void;
 };
 
 export const NotifierSetupContext = createContext<NotifierSetupContextType>({
@@ -18,7 +18,9 @@ export const NotifierSetupContext = createContext<NotifierSetupContextType>({
     stationId: null,
     threshold: null,
   },
-  setNotifierSetup: () => {},
+  setStationId: () => {},
+  setThreshold: () => {},
+  resetNotifierSetup: () => {},
 });
 
 type Props = { children: React.ReactNode };
@@ -28,9 +30,24 @@ export const NotifierSetupProvider = ({ children }: Props) => {
     threshold: null,
   });
 
+  const setStationId = (stationId: string) => {
+    setNotifierSetup((prev) => ({ ...prev, stationId }));
+  };
+
+  const setThreshold = (threshold: number) => {
+    setNotifierSetup((prev) => ({ ...prev, threshold }));
+  };
+
+  const resetNotifierSetup = () => {
+    setNotifierSetup({
+      stationId: null,
+      threshold: null,
+    });
+  };
+
   return (
     <NotifierSetupContext.Provider
-      value={{ notifierSetup, setNotifierSetup }}
+      value={{ notifierSetup, setStationId, setThreshold, resetNotifierSetup }}
     >
       {children}
     </NotifierSetupContext.Provider>

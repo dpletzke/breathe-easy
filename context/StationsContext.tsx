@@ -7,9 +7,9 @@ export type StationRecord = {
 };
 
 export type StationsContextType = {
-  stations: Map<number, StationRecord>;
+  stations: Map<string, StationRecord>;
   setStationLookups: (lookups: StationLookup[]) => void;
-  deleteStation: (uid: number) => void;
+  deleteStation: (uid: string) => void;
   setStationData: (responses: StationResponse[]) => void;
 };
 
@@ -25,21 +25,21 @@ export const StationsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [stations, setStations] = useState<Map<number, StationRecord>>(
+  const [stations, setStations] = useState<Map<string, StationRecord>>(
     new Map()
   );
 
   const setStationLookups = (lookups: StationLookup[]) => {
     lookups.forEach((lookup) => {
-      stations.set(lookup.uid, { lookup, data: null });
+      stations.set(`${lookup.uid}`, { lookup, data: null });
     });
   };
-  const deleteStation = (uid: number) => {
+  const deleteStation = (uid: string) => {
     stations.delete(uid);
   };
   const setStationData = (responses: StationResponse[]) => {
     responses.forEach((res) => {
-      const station = stations.get(res.data.idx);
+      const station = stations.get(`${res.data.idx}`);
       if (station) {
         station.data = { ...res.data, time: res.time };
       }
