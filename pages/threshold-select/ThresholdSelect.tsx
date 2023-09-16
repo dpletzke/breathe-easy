@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 });
 
 const ThresholdSelect = ({ navigation }: Props) => {
-  const { notifierSetup, setNotifierSetup } = useContext(NotifierSetupContext);
+  const { notifierSetup, setStationId, setThreshold } =
+    useContext(NotifierSetupContext);
 
   const [inputValue, setInputValue] = useState<string>(
     `${notifierSetup.threshold || ""}`
@@ -39,7 +40,7 @@ const ThresholdSelect = ({ navigation }: Props) => {
       <TextInput
         style={styles.input}
         onChangeText={(text) => {
-          setInputValue(text);
+          setInputValue(text.replace(/[^0-9]/g, ""));
         }}
         value={inputValue}
         placeholder="Set threshold value"
@@ -47,10 +48,7 @@ const ThresholdSelect = ({ navigation }: Props) => {
       />
       <Button
         onPress={() => {
-          setNotifierSetup((prev) => ({
-            ...prev,
-            threshold: parseInt(inputValue),
-          }));
+          setThreshold(parseInt(inputValue));
           navigation.navigate("confirm");
         }}
       >

@@ -15,7 +15,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "stationSelect">;
 
 const StationSelect = ({ navigation }: Props) => {
   const { stations, setStationLookups } = useContext(StationsContext);
-  const { setNotifierSetup } = useContext(NotifierSetupContext);
+  const { setStationId } = useContext(NotifierSetupContext);
 
   const [selectedStation, setSelectedStation] = useState<StationLookup | null>(
     null
@@ -48,7 +48,7 @@ const StationSelect = ({ navigation }: Props) => {
     console.log("requesting stations");
     requestStations(location, radius)
       .then((res) => {
-    console.log("got stations");
+        console.log("got stations");
         setStationLookups(res.data);
       })
       .catch((error) => {
@@ -68,10 +68,7 @@ const StationSelect = ({ navigation }: Props) => {
     >
       <Button
         onPress={() => {
-          setNotifierSetup((prev) => ({
-            ...prev,
-            stationId: selectedStation?.uid || null,
-          }));
+          setStationId(`${selectedStation?.uid}` || "");
           navigation.navigate("thresholdSelect");
         }}
       >
@@ -85,7 +82,7 @@ const StationSelect = ({ navigation }: Props) => {
         <Picker
           selectedValue={selectedStation?.uid}
           onValueChange={(itemValue) => {
-            setSelectedStation(stations.get(itemValue)?.lookup || null);
+            setSelectedStation(stations.get(`${itemValue}`)?.lookup || null);
           }}
           style={{ height: 200, width: 400 }}
         >
