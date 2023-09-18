@@ -1,24 +1,57 @@
 import Routes from "./pages/Routes";
-import { SafeAreaView, StyleSheet } from "react-native";
-import React from "react";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
+import { AppProvider, UserProvider } from "@realm/react";
 import { ContextProvider } from "./context";
 import { RealmProvider } from "./schemas";
+import { appId, baseUrl } from "./atlasConfig.json";
+import Login from "./pages/login/Login";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  activityContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
 });
+
+const LoadingIndicator = () => {
+  return (
+    <View style={styles.activityContainer}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+};
 
 function App() {
   return (
-    <RealmProvider>
-      <ContextProvider>
-        <SafeAreaView style={styles.container}>
-          <Routes />
-        </SafeAreaView>
-      </ContextProvider>
-    </RealmProvider>
+    <AppProvider id={appId} baseUrl={baseUrl}>
+      <UserProvider fallback={Login}>
+        <RealmProvider
+          sync={{
+            flexible: true,
+            onError: (session, error) => {
+              console.log(error);
+            },
+          }}
+          fallback={LoadingIndicator}
+        >
+          <ContextProvider>
+            <SafeAreaView style={styles.container}>
+              <Routes />
+            </SafeAreaView>
+          </ContextProvider>
+        </RealmProvider>
+      </UserProvider>
+    </AppProvider>
   );
 }
 

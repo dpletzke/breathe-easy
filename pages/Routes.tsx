@@ -6,6 +6,7 @@ import StationSelect from "./station-select/StationSelect";
 import Confirm from "./confirm/Confirm";
 import ThresholdSelect from "./threshold-select/ThresholdSelect";
 import Home from "./home/Home";
+import Login from "./login/Login";
 import { useDb } from "../hooks";
 
 export type RootStackParamList = {
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   thresholdSelect: undefined;
   confirm: undefined;
   home: undefined;
+  login: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -44,6 +46,11 @@ function Routes() {
           name="home"
           component={Home}
           options={{ title: "Home" }}
+        />
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{ title: "Login" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

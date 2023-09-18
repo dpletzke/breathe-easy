@@ -8,11 +8,11 @@ export class Notifier extends Realm.Object<Notifier> {
 
   static schema = {
     name: "Notifier",
+    primaryKey: "_id",
     properties: {
       _id: { type: "objectId", default: () => new BSON.ObjectId() },
       stationId: "string",
       threshold: "int",
     },
-    primaryKey: "_id",
   };
 }

@@ -1,0 +1,9 @@
+{
+    "appId": "breathe-easy-app-setkx",
+    "appUrl": "https://realm.mongodb.com/groups/6504960976060455323b4b0f/apps/6507c83eba09e720b954dbf3",
+    "baseUrl": "https://realm.mongodb.com",
+    "clientApiBaseUrl": "https://us-east-1.aws.realm.mongodb.com",
+    "dataApiBaseUrl": "https://us-east-1.aws.data.mongodb-api.com",
+    "dataExplorerLink": "https://cloud.mongodb.com/links/6504960976060455323b4b0f/explorer/AtlasCluster/database/collection/find",
+    "dataSourceName": "mongodb-atlas"
+}
