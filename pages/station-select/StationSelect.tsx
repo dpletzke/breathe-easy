@@ -78,23 +78,21 @@ const StationSelect = ({ navigation }: Props) => {
       {selectedStation && (
         <Text>Selected Station: {selectedStation.station.name}</Text>
       )}
-      {stations.size > 0 && (
+      {Object.keys(stations).length > 0 && (
         <Picker
           selectedValue={selectedStation?.uid}
           onValueChange={(itemValue) => {
-            setSelectedStation(stations.get(`${itemValue}`)?.lookup || null);
+            setSelectedStation(stations[`${itemValue}`]?.lookup || null);
           }}
           style={{ height: 200, width: 400 }}
         >
-          {Array.from(stations.values())
-            .map((station) => station.lookup)
-            .map((station) => (
-              <Picker.Item
-                key={station.uid}
-                label={station.station.name}
-                value={station.uid}
-              />
-            ))}
+          {Object.values(stations).map(({ lookup }) => (
+            <Picker.Item
+              key={lookup.uid}
+              label={lookup.station.name}
+              value={lookup.uid}
+            />
+          ))}
         </Picker>
       )}
     </View>

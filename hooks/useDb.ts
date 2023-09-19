@@ -1,56 +1,66 @@
-import { useCallback } from "react";
-import { useObject, useRealm } from "../schemas";
+import { useCallback, useEffect } from "react";
+import { useObject, useRealm, useQuery } from "../schemas";
 import { Notifier } from "../schemas/NotifierSchema";
+import { useUser } from "@realm/react";
 
 export const useDb = () => {
-  const db = useRealm();
+  const realm = useRealm();
+  const notifiers = useQuery(Notifier).sorted("_id");
+  const user = useUser();
+
+  useEffect(() => {
+    realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.add(realm.objects(Notifier));
+    });
+  }, [realm, user]);
 
   const createNotifier = useCallback(
     (stationId: string, threshold: number): void => {
       if (!stationId || !threshold) {
         return;
       }
-      db.write(() => {
-        db.create(Notifier, {
+      realm.write(() => {
+        realm.create(Notifier, {
           stationId,
           threshold,
         });
       });
     },
-    [db]
+    [realm]
   );
 
   const getNotifiers = useCallback(() => {
-    return db.objects<Notifier>(Notifier.name);
-  }, [db]);
+    return realm.objects<Notifier>(Notifier.name);
+  }, [realm]);
 
   const getNotifierById = useCallback(
     (id: string) => {
       return useObject<Notifier>(Notifier.name, id);
     },
-    [db]
+    [realm]
   );
 
   const deleteNotifier = useCallback(
     (id: string) => {
       const notifier = getNotifierById(id);
-      db.write(() => {
-        db.delete(notifier);
+      realm.write(() => {
+        realm.delete(notifier);
       });
     },
-    [db]
+    [realm]
   );
 
   const deleteAllNotifiers = useCallback(() => {
-    db.write(() => {
-      db.delete(getNotifiers());
+    realm.write(() => {
+      realm.delete(getNotifiers());
     });
-  }, [db]);
+  }, [realm]);
 
   return {
+    realm,
+    user,
+    notifiers,
     createNotifier,
-    getNotifiers,
-    getNotifierById,
     deleteNotifier,
     deleteAllNotifiers,
   };

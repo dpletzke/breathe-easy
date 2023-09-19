@@ -10,6 +10,7 @@ import { ContextProvider } from "./context";
 import { RealmProvider } from "./schemas";
 import { appId, baseUrl } from "./atlasConfig.json";
 import Login from "./pages/login/Login";
+import { Notifier } from "./schemas/NotifierSchema";
 
 const styles = StyleSheet.create({
   container: {
@@ -36,13 +37,13 @@ function App() {
     <AppProvider id={appId} baseUrl={baseUrl}>
       <UserProvider fallback={Login}>
         <RealmProvider
+          fallback={LoadingIndicator}
           sync={{
             flexible: true,
             onError: (session, error) => {
               console.log(error);
             },
           }}
-          fallback={LoadingIndicator}
         >
           <ContextProvider>
             <SafeAreaView style={styles.container}>

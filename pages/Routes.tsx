@@ -7,7 +7,7 @@ import Confirm from "./confirm/Confirm";
 import ThresholdSelect from "./threshold-select/ThresholdSelect";
 import Home from "./home/Home";
 import Login from "./login/Login";
-import { useDb } from "../hooks";
+// import { useDb } from "../hooks";
 
 export type RootStackParamList = {
   stationSelect: undefined;
@@ -20,10 +20,6 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function Routes() {
-  const { deleteAllNotifiers } = useDb();
-  useEffect(() => {
-    deleteAllNotifiers();
-  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="home">
