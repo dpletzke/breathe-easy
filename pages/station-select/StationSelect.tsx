@@ -8,7 +8,7 @@ import type { RootStackParamList } from "../Routes";
 import { NotifierSetupContext, StationsContext } from "../../context";
 
 import { Button } from "../../components/Button";
-import type { StationLookup } from "../../types";
+import type { StationRecord } from "../../types";
 import { requestStations } from "../../utils/apiUtils";
 
 type Props = NativeStackScreenProps<RootStackParamList, "stationSelect">;
@@ -17,7 +17,7 @@ const StationSelect = ({ navigation }: Props) => {
   const { stations, setStationLookups } = useContext(StationsContext);
   const { setStationId } = useContext(NotifierSetupContext);
 
-  const [selectedStation, setSelectedStation] = useState<StationLookup | null>(
+  const [selectedStation, setSelectedStation] = useState<StationRecord | null>(
     null
   );
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -68,30 +68,24 @@ const StationSelect = ({ navigation }: Props) => {
     >
       <Button
         onPress={() => {
-          setStationId(`${selectedStation?.uid}` || "");
+          setStationId(`${selectedStation?.stationId}` || "");
           navigation.navigate("thresholdSelect");
         }}
       >
         Go to Threshold
       </Button>
       {errorMsg && <Text> Error: {JSON.stringify(errorMsg, null, 2)}</Text>}
-      {selectedStation && (
-        <Text>Selected Station: {selectedStation.station.name}</Text>
-      )}
+      {selectedStation && <Text>Selected Station: {selectedStation.name}</Text>}
       {Object.keys(stations).length > 0 && (
         <Picker
-          selectedValue={selectedStation?.uid}
+          selectedValue={selectedStation?.stationId}
           onValueChange={(itemValue) => {
-            setSelectedStation(stations[`${itemValue}`]?.lookup || null);
+            setSelectedStation({ ...stations[itemValue] } || null);
           }}
           style={{ height: 200, width: 400 }}
         >
-          {Object.values(stations).map(({ lookup }) => (
-            <Picker.Item
-              key={lookup.uid}
-              label={lookup.station.name}
-              value={lookup.uid}
-            />
+          {Object.values(stations).map(({ name, stationId }) => (
+            <Picker.Item key={stationId} label={name} value={stationId} />
           ))}
         </Picker>
       )}

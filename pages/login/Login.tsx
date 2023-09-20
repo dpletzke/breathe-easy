@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Realm from "realm";
 import { useApp } from "@realm/react";
 import { SafeAreaProvider } from "react-native-safe-area-context";

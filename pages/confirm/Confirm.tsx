@@ -32,12 +32,6 @@ const Confirm = ({ navigation }: Props) => {
   const realm = useRealm();
   const user = useUser();
 
-  // useEffect(() => {
-  //   realm.subscriptions.update((mutableSubs) => {
-  //     mutableSubs.add(realm.objects(Notifier), { name: "notifiers" });
-  //   });
-  // }, [realm]);
-
   const createNotifier = useCallback(
     ({ stationId, threshold }: { stationId: string; threshold: number }) => {
       // if the realm exists, create an Item
@@ -69,10 +63,6 @@ const Confirm = ({ navigation }: Props) => {
       navigation.navigate("home");
       return;
     }
-    const newNotifierSetup = {
-      stationId: null,
-      threshold: null,
-    };
     resetNotifierSetup();
     navigation.navigate("home");
   };
@@ -82,8 +72,7 @@ const Confirm = ({ navigation }: Props) => {
       {notifierSetup.stationId && (
         <View>
           <Text>
-            {stations[notifierSetup.stationId]?.lookup.station.name} -{" "}
-            {notifierSetup.stationId}
+            {stations[notifierSetup.stationId].name} - {notifierSetup.stationId}
           </Text>
           <Text>{notifierSetup.threshold}</Text>
           <Text style={{ color: "red", fontWeight: "bold" }}>{errorMsg}</Text>
