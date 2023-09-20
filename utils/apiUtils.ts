@@ -54,9 +54,18 @@ export const requestStations = async (
 };
 
 export const requestStation = async (
-  stationId: number
+  stationId: string
 ): Promise<StationResponse> => {
   const urlStationLookup = `${stationsApiBaseUrl}/feed/@${stationId}/?token=${process.env.EXPO_PUBLIC_API_TOKEN}`;
+
+  const response = await fetch(urlStationLookup);
+  const json = await response.json();
+  assertSuccess<StationResponse>(json);
+  return json;
+};
+
+export const requestStationByIp = async (): Promise<StationResponse> => {
+  const urlStationLookup = `${stationsApiBaseUrl}/feed/here/?token=${process.env.EXPO_PUBLIC_API_TOKEN}`;
 
   const response = await fetch(urlStationLookup);
   const json = await response.json();

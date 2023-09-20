@@ -114,36 +114,7 @@ export type StationResponse = {
   time: StationTime;
 };
 
-// type ForecastType = {
-//   avg: number;
-//   day: string;
-//   max: number;
-//   min: number;
-// };
-// export type StationResponseV2 =
-//   | ErrorResponse
-//   | {
-//       dt: string;
-//       rxs: {
-//         status: "ok";
-//         ver: string;
-//         obs: {
-//           msg: {
-//             aqi: number;
-//             idx: number;
-//             attributions: StationAttribution[] | [];
-//             city: StationCity;
-//             dominentpol: string;
-//             iaqi: QualityType;
-//             time: StationTime;
-//             forecast: {
-//               daily: {
-//                 o3: ForecastType[];
-//                 pm10: ForecastType[];
-//                 pm25: ForecastType[];
-//               };
-//             };
-//           };
-//         }[];
-//       };
-//     };
+export type StationRecord = {
+  stationId: string;
+  name: string;
+};
