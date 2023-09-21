@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 const ThresholdSelect = ({ navigation }: Props) => {
-  const { notifierSetup, setStationId, setThreshold } =
+  const { notifierSetup, setThreshold } =
     useContext(NotifierSetupContext);
 
   const [inputValue, setInputValue] = useState<string>(

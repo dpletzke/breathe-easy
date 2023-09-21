@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -7,7 +6,6 @@ import Confirm from "./confirm/Confirm";
 import ThresholdSelect from "./threshold-select/ThresholdSelect";
 import Home from "./home/Home";
 import Login from "./login/Login";
-// import { useDb } from "../hooks";
 
 export type RootStackParamList = {
   stationSelect: undefined;
