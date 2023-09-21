@@ -1,10 +1,15 @@
-type DataType = {
-  [key: string]: {
-    [key: string]: any;
-  };
-};
-
-export function mergeData<T>(target: DataType, source: DataType) {
+export function mergeData<T>(
+  target: {
+    [key: string]: {
+      [key: string]: any;
+    };
+  },
+  source: {
+    [key: string]: {
+      [key: string]: any;
+    };
+  }
+) {
   const result = { ...target };
   Object.keys(source).forEach((key) => {
     if (result[key]) {

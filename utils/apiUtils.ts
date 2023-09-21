@@ -25,12 +25,6 @@ export function assertSuccess<T extends ResponseType>(
   }
 }
 
-// export const isResponseErrorV2 = (response: any) => {
-//   return response.rxs.obs[1].msg.status === "error"
-//     ? response.rxs.obs[1].msg.msg
-//     : false;
-// };
-
 const stationsApiBaseUrl = "https://api.waqi.info";
 
 export const requestStations = async (
