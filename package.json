@@ -16,7 +16,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@realm/react": "^0.6.0",
     "expo": "^49.0.9",
-    "expo-dev-client": "~2.4.8",
+    "expo-dev-client": "~2.4.10",
     "expo-location": "~16.1.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",

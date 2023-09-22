@@ -8,6 +8,7 @@ import { StationsContext } from "../../context";
 
 import { requestStation } from "../../utils/apiUtils";
 import { Button } from "../../components/Button";
+import { onDisplayNotification } from "../../utils/notificationUtil";
 
 type Props = NativeStackScreenProps<RootStackParamList, "home">;
 
@@ -49,6 +50,9 @@ const Home = ({ navigation }: Props) => {
     >
       <Button onPress={logoutUser}>
         <Text>Logout</Text>
+      </Button>
+      <Button onPress={onDisplayNotification}>
+        <Text>Send Notification</Text>
       </Button>
       <View>
         {ownNotifiersResults.length > 0 &&
